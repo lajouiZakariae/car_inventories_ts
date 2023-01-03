@@ -1,0 +1,28 @@
+.create-form {
+  width: 90%;
+  max-width: 750px;
+}
+
+#picturePreview,
+#picturePlaceholder {
+  width: 178px;
+  height: 178px;
+}
+
+#picturePlaceholder {
+  background-color: #f1f1f1;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.picture-placeholder-error {
+  box-shadow: 0px 0px 10px rgb(220, 53, 69, 0.8) !important;
+}
+
+#picturePreview {
+  object-fit: cover;
+}
