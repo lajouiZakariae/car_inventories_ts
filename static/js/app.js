@@ -92,7 +92,7 @@ $(function () {
             .delay(1000)
             .fadeOut(700);
 
-          console.log(addProduct[0].reset());
+          addProduct[0].reset();
           picturePlaceholder.show().addClass('d-flex');
           picturePreview.parent().addClass('d-none');
         }
@@ -174,4 +174,87 @@ $(function () {
       },
     });
   });
+
+  function renderStores() {
+    const container = $('.stores-listing').append(
+      $('<span class="loading">Loading...</span>')
+    );
+    container.children().remove();
+    $.ajax({
+      url: 'stores.php',
+      error(err) {
+        console.log(err);
+      },
+      success(data) {
+        if (data.stores) {
+          $('.loading').remove();
+
+          for (const store of data.stores) {
+            const card = $(
+              '<div class="store border rounded p-3 mb-2 d-flex ">'
+            );
+            card.append(
+              $('<div style="flex: 1 1 auto;"></div>').append(
+                $('<h4></h4>').text(store.name)
+              )
+            );
+
+            /**
+             * TODO: Complete Store Editing
+             */
+
+            function editStore() {
+              const product = new FormData();
+              product.append('id', store.id);
+              product.append('name', 'lorem');
+              $.ajax({
+                url: 'edit.php',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: product,
+                success(response) {
+                  console.log(response);
+                },
+                error(err) {
+                  console.log(err);
+                },
+              });
+            }
+
+            function deleteStore() {
+              $.ajax({
+                url: 'delete.php?id=' + store.id,
+                success(data) {
+                  if (data.deleted) renderStores();
+                },
+                error(err) {
+                  console.log(err);
+                },
+              });
+            }
+
+            const editForm = $('<form class="d-inline-block"></form>')
+              .append(
+                $(
+                  '<button type="submit" class="btn btn-sm btn-dark">Edit</button>'
+                )
+              )
+              .submit(editStore);
+
+            const deleteButton = $(
+              '<button class="btn btn-sm btn-danger ms-2">Delete</button>'
+            );
+            deleteButton.click(deleteStore);
+
+            card.append($('<div>').append([editForm, deleteButton]));
+            $('.stores-listing').append(
+              $('<div class="col-12"></div>').append(card)
+            );
+          }
+        }
+      },
+    });
+  }
+  renderStores();
 });

@@ -155,32 +155,32 @@ class Store {
     }
     public static function destroy($id) {
         global $conn;
-        $query = $conn->prepare("DELETE FROM stores WHERE id = ?;", [$id]);
+        $query = $conn->prepare("DELETE FROM stores WHERE id = ?;");
         $query->execute([$id]);
-        return $query->fetch();
+        return !!$query->rowCount();
     }
 
-    public static function update($car) {
-        global $conn;
+// public static function update($car) {
+//     global $conn;
 
-        $stm = "UPDATE stores SET ";
-        $keys = [];
-        $values = [];
+//     $stm = "UPDATE stores SET ";
+//     $keys = [];
+//     $values = [];
 
-        foreach ($car as $key => $value) {
-            $keys[] = $key;
-            $values[] = $value;
-        }
+//     foreach ($car as $key => $value) {
+//         $keys[] = $key;
+//         $values[] = $value;
+//     }
 
-        foreach ($keys as $key) {
-            $stm .= "$key = :$key, ";
-        }
+//     foreach ($keys as $key) {
+//         $stm .= "$key = :$key, ";
+//     }
 
-        // $stm = str_;
+//     // $stm = str_;
 
-        dd($stm);
+//     dd($stm);
 
-        $stm .= " WHERE id = :id;";
-    }
+//     $stm .= " WHERE id = :id;";
+// }
 
 }
