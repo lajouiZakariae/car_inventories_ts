@@ -1,4 +1,11 @@
 $(function () {
+  // Reandom
+  $('.random').click(function () {
+    $('input[name=title]').val('Jacket');
+    $('input[name=description]').val('lorem ipsum dolor');
+    $('input[name=cost]').val('65');
+    $('input[name=price]').val('85');
+  });
   /**
    * Image Preview
    */
@@ -86,8 +93,8 @@ $(function () {
             .fadeOut(700);
 
           console.log(addProduct[0].reset());
-          picturePreview.addClass('d-none');
-          picturePlaceholder.removeClass('d-none').attr('src', '');
+          picturePlaceholder.show().addClass('d-flex');
+          picturePreview.parent().addClass('d-none');
         }
       },
     });

@@ -11,6 +11,7 @@ $stores = Store::all();
 ?>
 
 <form class='mx-auto my-3 create-form' enctype="multipart/form-data" id="addProduct">
+    <div class="mb-2"><button type="button" class="btn btn-sm btn-dark random">Fill With Random Data</button></div>
     <div class="mb-1">
 
         <div class="">
