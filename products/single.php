@@ -8,8 +8,7 @@ if (!is_number($id)) {
     redirect("/cars");
 }
 
-$car = Car::findOne($id);
-$lead_count = Lead::count($id);
+$product = Product::findOne($id);
 
 ?>
 <div class="container-fluid">
@@ -18,8 +17,8 @@ $lead_count = Lead::count($id);
 
         <div class="col-10 mt-3 position-relative">
             <div class="controls position-absolute">
-                <a class="trash text-info me-2" href="/cars/edit.php?id=<?php e($car->id) ?>">Edit</a>
-                <a class="trash text-danger" href="/cars/delete.php?id=<?php e($car->id) ?>">Trash</a>
+                <a class="trash text-info me-2" href="/products/edit.php?id=<?php e($product->id) ?>">Edit</a>
+                <a class="trash text-danger" href="/products/delete.php?id=<?php e($product->id) ?>">Trash</a>
             </div>
             <div class="car row border rounded p-4 mx-2">
                 <div class="col-md-5">
@@ -29,14 +28,14 @@ $lead_count = Lead::count($id);
                 <hr class="d-md-none my-2" />
                 <div class="col-md-7">
                     <h2>
-                        <?php e($car->make . " " . $car->model) ?>
+                        <?php e($product->title) ?>
                     </h2>
                     <div class="description">
-                        Year: <?php e($car->year) ?>
+                        <?php e($product->description) ?>
                         <br />
-                        <b class="text-primary">
+                        <!-- <b class="text-primary">
                             <?php e($lead_count) ?>
-                        </b> People want this car.
+                        </b> People want this car. -->
                     </div>
                 </div>
             </div>

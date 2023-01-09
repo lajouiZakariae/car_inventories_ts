@@ -3,27 +3,27 @@
 require("../init.php");
 require(INCS . "head.php");
 
-$cars = Car::all();
+$products = Product::all();
 ?>
 
 <div class="container-fluid mt-3">
-    <a class="btn btn-md btn-dark" href="/cars/create.php">Add a Car</a>
+    <a class="btn btn-md btn-dark" href="/products/create.php">Add a Product</a>
     <div class="row mt-3">
-        <?php foreach ($cars as $car): ?>
+        <?php foreach ($products as $product): ?>
             <div class='col-12 col-md-6'>
                 <div class='card mb-3'>
                     <div class='card-body'>
 
                         <h4 class='card-title text-dark'>
-                            <?php echo $car->make ?> <?php echo $car->model ?>
+                            <?php e($product->title) ?>
                         </h4>
-                        <span>Year: <?php echo $car->year ?></span>
+                        <span><b>Cost</b>: <?php e($product->cost) ?> & <b>Price</b>: <?php e($product->price) ?></span>
                         <br />
-                        <span>Ready to Sell: <?php echo $car->ready_to_sell ? "yes" : "no" ?></span>
+                        <span>Ready to Sell: <?php e($product->ready_to_sell ? "yes" : "no") ?></span>
                         <br />
-                        <span>Added in : <?php echo "" //$car->created_at ?></span>
+                        <span>Added in : <?php echo "" //$product->created_at ?></span>
                         <div class="div mt-2">
-                            <a href="/cars/car.php?id=<?php echo $car->id ?>" class='btn btn-sm btn-dark'>
+                            <a href="/products/single.php?id=<?php e($product->id) ?>" class='btn btn-sm btn-dark'>
                                 Details
                             </a>
                             &nbsp;
@@ -35,7 +35,7 @@ $cars = Car::all();
                     </div>
                 </div>
             </div>
-            <?php endforeach ?>
+        <?php endforeach ?>
     </div>
 </div>
 

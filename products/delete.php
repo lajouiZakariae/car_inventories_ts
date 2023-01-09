@@ -5,20 +5,20 @@ require(INCS . "head.php");
 $id = $_GET["id"];
 
 if (!is_number($id))
-    redirect("/cars");
+    redirect("/products");
 
 
-$destroyed = Car::destroy($id);
+$destroyed = Product::destroy($id);
 
 if (!$destroyed)
-    redirect("/cars");
+    redirect("/products");
 ?>
 
 <div class="container mt-3">
 
     <div class="alert alert-success">
-        <h5>Deleted Successfully</h5>
-        <a href="/cars" class="link-success">Back to listing</a>
+        <h5>Product is Deleted Successfully</h5>
+        <a href="/products" class="link-success">Back to listing</a>
     </div>
 
 </div>

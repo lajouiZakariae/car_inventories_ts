@@ -27,6 +27,11 @@ function shake($length = 10) {
     }
 
     return $shake;
+}
+function sendJson($data) {
+    header("Content-Type: application/json");
+    echo json_encode($data);
+    die();
 } ?>
 <?php function display_errors($errors) { ?>
     <?php if (!empty($errors)): ?>
@@ -37,204 +42,145 @@ function shake($length = 10) {
         <?php endforeach ?>
     <?php endif ?>
 <?php } ?>
-<?php class Car {
+<?php class Product {
 
-        public static function all() {
-            global $conn;
-            $query = $conn->query("SELECT * FROM cars;");
-            return $query->fetchAll();
-        }
-
-        public static function findOne($id) {
-            global $conn;
-            $query = $conn->prepare("SELECT * FROM cars WHERE id = ? LIMIT 1;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-        public static function destroy($id) {
-            global $conn;
-            $query = $conn->prepare("DELETE FROM cars WHERE id = ?;", [$id]);
-            $query->execute([$id]);
-            return (bool) $query->rowCount();
-        }
-
-        public static function update($car) {
-            global $conn;
-
-            $stm = "UPDATE cars SET ";
-            $keys = [];
-            $values = [];
-
-            foreach ($car as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-
-            foreach ($keys as $key) {
-                $stm .= "$key = :$key, ";
-            }
-
-            // $stm = str_;
-    
-            dd($stm);
-
-            $stm .= " WHERE id = :id;";
-        }
-
+    public static function all() {
+        global $conn;
+        $query = $conn->query("SELECT * FROM products;");
+        return $query->fetchAll();
     }
-    class Lead {
-        public static function count($car_id) {
-            global $conn;
-            $stm = "SELECT COUNT(id) as lead_count FROM leads where wanted_car = ? ;";
-            $query = $conn->prepare($stm);
-            $query->execute([$car_id]);
-            return $query->fetch()->lead_count;
-        }
 
-        public static function all() {
-            global $conn;
-            $query = $conn->query("SELECT * FROM leads;");
-            return $query->fetchAll();
-        }
-
-        public static function findOne($id) {
-            global $conn;
-            $query = $conn->prepare("SELECT * FROM leads WHERE id = ? LIMIT 1;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-        public static function destroy($id) {
-            global $conn;
-            $query = $conn->prepare("DELETE FROM leads WHERE id = ?;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-
-        public static function update($car) {
-            global $conn;
-
-            $stm = "UPDATE leads SET ";
-            $keys = [];
-            $values = [];
-
-            foreach ($car as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-
-            foreach ($keys as $key) {
-                $stm .= "$key = :$key, ";
-            }
-
-            // $stm = str_;
-    
-            dd($stm);
-
-            $stm .= " WHERE id = :id;";
-        }
-
+    public static function findOne($id) {
+        global $conn;
+        $query = $conn->prepare("SELECT * FROM products WHERE id = ? LIMIT 1;", [$id]);
+        $query->execute([$id]);
+        return $query->fetch();
     }
-    class Category {
-        public static function count($car_id) {
-            global $conn;
-            $stm = "SELECT COUNT(id) as lead_count FROM categories where wanted_car = ? ;";
-            $query = $conn->prepare($stm);
-            $query->execute([$car_id]);
-            return $query->fetch()->lead_count;
-        }
-
-        public static function all() {
-            global $conn;
-            $query = $conn->query("SELECT id,name FROM categories;");
-            return $query->fetchAll();
-        }
-
-        public static function findOne($id) {
-            global $conn;
-            $query = $conn->prepare("SELECT * FROM categories WHERE id = ? LIMIT 1;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-        public static function destroy($id) {
-            global $conn;
-            $query = $conn->prepare("DELETE FROM categories WHERE id = ?;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-
-        public static function update($car) {
-            global $conn;
-
-            $stm = "UPDATE categories SET ";
-            $keys = [];
-            $values = [];
-
-            foreach ($car as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-
-            foreach ($keys as $key) {
-                $stm .= "$key = :$key, ";
-            }
-
-            // $stm = str_;
-    
-            dd($stm);
-
-            $stm .= " WHERE id = :id;";
-        }
-
+    public static function destroy($id) {
+        global $conn;
+        $query = $conn->prepare("DELETE FROM products WHERE id = ?;", [$id]);
+        $query->execute([$id]);
+        return (bool) $query->rowCount();
     }
-    class Inventory {
-        public static function count($car_id) {
-            global $conn;
-            $stm = "SELECT COUNT(id) as lead_count FROM inventories where wanted_car = ? ;";
-            $query = $conn->prepare($stm);
-            $query->execute([$car_id]);
-            return $query->fetch()->lead_count;
+
+    public static function update($car) {
+        global $conn;
+
+        $stm = "UPDATE products SET ";
+        $keys = [];
+        $values = [];
+
+        foreach ($car as $key => $value) {
+            $keys[] = $key;
+            $values[] = $value;
         }
 
-        public static function all() {
-            global $conn;
-            $query = $conn->query("SELECT id, inventory_name as name FROM inventories;");
-            return $query->fetchAll();
+        foreach ($keys as $key) {
+            $stm .= "$key = :$key, ";
         }
 
-        public static function findOne($id) {
-            global $conn;
-            $query = $conn->prepare("SELECT * FROM inventories WHERE id = ? LIMIT 1;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
-        public static function destroy($id) {
-            global $conn;
-            $query = $conn->prepare("DELETE FROM inventories WHERE id = ?;", [$id]);
-            $query->execute([$id]);
-            return $query->fetch();
-        }
+        // $stm = str_;
 
-        public static function update($car) {
-            global $conn;
+        dd($stm);
 
-            $stm = "UPDATE inventories SET ";
-            $keys = [];
-            $values = [];
-
-            foreach ($car as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-
-            foreach ($keys as $key) {
-                $stm .= "$key = :$key, ";
-            }
-
-            // $stm = str_;
-    
-            dd($stm);
-
-            $stm .= " WHERE id = :id;";
-        }
-
+        $stm .= " WHERE id = :id;";
     }
+
+}
+
+class Category {
+    public static function all() {
+        global $conn;
+        $query = $conn->query("SELECT id,name FROM categories;");
+        return $query->fetchAll();
+    }
+
+    public static function findOne($id) {
+        global $conn;
+        $query = $conn->prepare("SELECT * FROM categories WHERE id = ? LIMIT 1;", [$id]);
+        $query->execute([$id]);
+        return $query->fetch();
+    }
+    public static function destroy($id) {
+        global $conn;
+        $query = $conn->prepare("DELETE FROM categories WHERE id = ?;", [$id]);
+        $query->execute([$id]);
+        return $query->fetch();
+    }
+
+    public static function update($car) {
+        global $conn;
+
+        $stm = "UPDATE categories SET ";
+        $keys = [];
+        $values = [];
+
+        foreach ($car as $key => $value) {
+            $keys[] = $key;
+            $values[] = $value;
+        }
+
+        foreach ($keys as $key) {
+            $stm .= "$key = :$key, ";
+        }
+
+        // $stm = str_;
+
+        dd($stm);
+
+        $stm .= " WHERE id = :id;";
+    }
+
+}
+class Store {
+    public static function count() {
+        // global $conn;
+        // $stm = "SELECT COUNT(id) as lead_count FROM stores where wanted_car = ? ;";
+        // $query = $conn->prepare($stm);
+        // $query->execute();
+        // return $query->fetch()->lead_count;
+    }
+
+    public static function all() {
+        global $conn;
+        $query = $conn->query("SELECT id, name FROM stores;");
+        return $query->fetchAll();
+    }
+
+    public static function findOne($id) {
+        global $conn;
+        $query = $conn->prepare("SELECT * FROM stores WHERE id = ? LIMIT 1;", [$id]);
+        $query->execute([$id]);
+        return $query->fetch();
+    }
+    public static function destroy($id) {
+        global $conn;
+        $query = $conn->prepare("DELETE FROM stores WHERE id = ?;", [$id]);
+        $query->execute([$id]);
+        return $query->fetch();
+    }
+
+    public static function update($car) {
+        global $conn;
+
+        $stm = "UPDATE stores SET ";
+        $keys = [];
+        $values = [];
+
+        foreach ($car as $key => $value) {
+            $keys[] = $key;
+            $values[] = $value;
+        }
+
+        foreach ($keys as $key) {
+            $stm .= "$key = :$key, ";
+        }
+
+        // $stm = str_;
+
+        dd($stm);
+
+        $stm .= " WHERE id = :id;";
+    }
+
+}

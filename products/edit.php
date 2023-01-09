@@ -4,7 +4,7 @@ require(INCS . "head.php");
 
 // POST REQUEST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $car = (object) [
+    $product = (object) [
         "make" => $_POST["make"],
         "model" => $_POST["model"],
         "year" => $_POST["year"],
@@ -13,26 +13,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "category" => $_POST["category"],
         "ready_to_sell" => $_POST["ready_to_sell"] ?? null,
     ];
-    dd($car);
-    die();
+    dd($product);
 }
 
 $id = $_GET["id"];
 
 if (!is_number($id))
-    redirect("/cars");
+    redirect("/products");
 
-$car = Car::findOne($id);
+$product = Product::findOne($id);
 
-if (!$car)
-    redirect("/cars");
+if (!$product)
+    redirect("/products");
 
 
 $categories = Category::all();
-$inventories = Inventory::all();
+$stores = Store::all();
 
 ?>
-<form class='w-50 mx-auto mt-3' action="/cars/edit.php?id=<?php e($car->id) ?>" method="POST"
+<form class='w-50 mx-auto mt-3' action="/cars/edit.php?id=<?php e($product->id) ?>" method="POST"
     enctype="multipart/form-data">
     <div class="form-group mb-2">
         <div class="picture-placeholder border rounded d-flex align-items-center justify-content-center fs-3">
@@ -41,42 +40,42 @@ $inventories = Inventory::all();
         <input type="file" name="picture" id="picture" hidden>
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='make' placeholder='Make' class='form-control' value="<?php e($car->make) ?>" />
+        <input type='text' name='make' placeholder='Make' class='form-control' value="<?php e($product->make) ?>" />
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='model' placeholder='Model' class='form-control' value="<?php e($car->model) ?>" />
+        <input type='text' name='model' placeholder='Model' class='form-control' value="<?php e($product->model) ?>" />
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='year' placeholder='Year' class='form-control' value="<?php e($car->year) ?>" />
+        <input type='text' name='year' placeholder='Year' class='form-control' value="<?php e($product->year) ?>" />
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='price' placeholder='Price' class='form-control' value="<?php e($car->price) ?>" />
+        <input type='text' name='price' placeholder='Price' class='form-control' value="<?php e($product->price) ?>" />
     </div>
     <hr />
     <div class='form-group mb-2'>
         <select name='inventory' class='form-select' id='inventory'>
-            <?php foreach ($inventories as $inventory): ?>
-                <option value="<?php echo $inventory->id ?>" <?php if ($inventory->id === $car->inventory) {
-                   echo "selected";
-               } ?>>
-                    <?php echo $inventory->name ?>
+            <?php foreach ($stores as $store): ?>
+                <option value="<?php echo $store->id ?>" <?php if ($store->id === $product->store_id) {
+                       echo "selected";
+                   } ?>>
+                    <?php echo $store->name ?>
                 </option>
-                <?php endforeach ?>
+            <?php endforeach ?>
         </select>
     </div>
     <div class='form-group mb-2'>
         <select name='category' class='form-select' id='category'>
             <?php foreach ($categories as $category): ?>
-                <option value="<?php echo $category->id ?>" <?php if ($category->id === $car->category) {
-                   echo "selected";
-               } ?>>
+                <option value="<?php echo $category->id ?>" <?php if ($category->id === $product->category_id) {
+                       echo "selected";
+                   } ?>>
                     <?php echo $category->name ?>
                 </option>
-                <?php endforeach ?>
+            <?php endforeach ?>
         </select>
     </div>
     <div class='form-group mb-2'>
-        <input type='checkbox' name='ready_to_sell' <?php echo $car->ready_to_sell ? "checked" : ""; ?> />
+        <input type='checkbox' name='ready_to_sell' <?php echo $product->ready_to_sell ? "checked" : ""; ?> />
         &nbsp;Ready to Sell
     </div>
     <button class='btn btn-primary w-100' type='submit'>

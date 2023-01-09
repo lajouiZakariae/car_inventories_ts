@@ -10,6 +10,6 @@ define('INCS', __DIR__ . "/partials/");
 
 // DATABASE
 define('HOST', 'localhost');
-define('DBNAME', 'car_store');
+define('DBNAME', 'ecommerce');
 define('USERNAME', 'root');
 define('PASSWORD', '');
