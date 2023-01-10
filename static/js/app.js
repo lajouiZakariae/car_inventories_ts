@@ -134,9 +134,7 @@ $(function () {
   /**
    * Product Form Submission
    */
-  const addProduct = $('#addProduct');
-
-  addProduct.submit(function (e) {
+  $('#addProduct').submit(function (e) {
     e.preventDefault();
     const product = new FormData(this);
     product.append('ready_to_sell', this.ready_to_sell.checked);
@@ -167,7 +165,7 @@ $(function () {
             .delay(1000)
             .fadeOut(700);
 
-          addProduct[0].reset();
+          this.reset();
           picturePlaceholder.show().addClass('d-flex');
           picturePreview.parent().addClass('d-none');
         }
@@ -179,18 +177,20 @@ $(function () {
    *  Display Stores
    */
   function renderStores() {
-    const container = $('.stores-listing').append(
-      $('<span class="loading">Loading...</span>')
-    );
+    const container = $('.stores-listing');
     container.children().remove();
+    container.append($('<span class="loading">Loading...</span>'));
+
     $.ajax({
       url: 'stores.php',
       error(err) {
-        console.log(err);
+        container
+          .find('.loading')
+          .replaceWith($('<span class="text-danger">').text('Someting wrong!'));
       },
       success(data) {
         if (data.stores) {
-          $('.loading').remove();
+          container.find('.loading').remove();
 
           for (const store of data.stores) {
             const card = $(
@@ -280,8 +280,7 @@ $(function () {
   /**
    * Store Form Submission
    */
-  const storeForm = $('#storeForm');
-  storeForm.submit(function (e) {
+  $('#storeForm').submit(function (e) {
     e.preventDefault();
     const store = new FormData(this);
     /**
