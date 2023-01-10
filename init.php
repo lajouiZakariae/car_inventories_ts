@@ -3,3 +3,4 @@
 require("config.php");
 require("database.php");
 require("functions.php");
+require("vendor/autoload.php");

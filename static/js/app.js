@@ -202,11 +202,39 @@ $(function () {
             /**
              * TODO: Complete Store Editing
              */
+            function deleteStore() {
+              $.ajax({
+                url: 'delete.php?id=' + store.id,
+                success(data) {
+                  if (data.deleted) renderStores();
+                },
+                error(err) {
+                  console.log(err);
+                },
+              });
+            }
 
             function editStore() {
-              const product = new FormData();
+              const h4 = $(this).parent().parent().parent().find('h4');
+              console.log(h4);
+              const nameInput = $('<input type="text" class="form-control">');
+              h4.replaceWith(nameInput);
+              nameInput.val(h4.text());
+
+              const saveBtn = $(
+                '<button type="submit" class="btn btn-sm btn-success">Save</button>'
+              );
+
+              $(this).replaceWith(saveBtn);
+            }
+
+            function addStore(e) {
+              e.preventDefault();
+              const product = new FormData(this);
               product.append('id', store.id);
-              product.append('name', 'lorem');
+              const nameInp = $(this).parent().parent().find('input');
+              product.append('name', nameInp.val());
+
               $.ajax({
                 url: 'edit.php',
                 type: 'POST',
@@ -222,30 +250,19 @@ $(function () {
               });
             }
 
-            function deleteStore() {
-              $.ajax({
-                url: 'delete.php?id=' + store.id,
-                success(data) {
-                  if (data.deleted) renderStores();
-                },
-                error(err) {
-                  console.log(err);
-                },
-              });
-            }
-
-            const editForm = $('<form class="d-inline-block"></form>')
+            const editForm = $('<form class="d-inline-block">')
               .append(
-                $(
-                  '<button type="submit" class="btn btn-sm btn-dark">Edit</button>'
-                )
+                $('<button type="button" class="btn btn-sm btn-dark">')
+                  .text('Edit')
+                  .click(editStore)
               )
-              .submit(editStore);
+              .submit(addStore);
 
             const deleteButton = $(
-              '<button class="btn btn-sm btn-danger ms-2">Delete</button>'
-            );
-            deleteButton.click(deleteStore);
+              '<button class="btn btn-sm btn-danger ms-2">'
+            )
+              .text('Delete')
+              .click(deleteStore);
 
             card.append($('<div>').append([editForm, deleteButton]));
             $('.stores-listing').append(

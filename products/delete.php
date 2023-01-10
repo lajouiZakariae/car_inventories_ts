@@ -2,6 +2,8 @@
 require("../init.php");
 require(INCS . "head.php");
 
+use App\Models\Product;
+
 $id = $_GET["id"];
 
 if (!is_number($id))

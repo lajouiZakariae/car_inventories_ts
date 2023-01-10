@@ -2,6 +2,8 @@
 
 require("../init.php");
 require(INCS . "head.php");
+use App\Models\Category;
+use App\Models\Store;
 
 $errors = (object) [];
 

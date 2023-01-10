@@ -3,6 +3,8 @@
 require("../init.php");
 require(INCS . "head.php");
 
+use App\Models\Product;
+
 $products = Product::all();
 ?>
 

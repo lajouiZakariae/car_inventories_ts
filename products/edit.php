@@ -1,6 +1,9 @@
 <?php
 require("../init.php");
 require(INCS . "head.php");
+use App\Models\Product;
+use App\Models\Store;
+use App\Models\Category;
 
 // POST REQUEST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
