@@ -11,13 +11,16 @@ function dd($arr = null) {
 function e($str) {
     echo htmlspecialchars($str);
 }
+
 function is_number(string $num) {
     return filter_var($num, FILTER_VALIDATE_INT);
 }
+
 function redirect(string $loc) {
     header("Location: $loc");
     die();
 }
+
 function shake($length = 10) {
     $chars = "abcdefghkldfonlkvc";
     $shake = "";
@@ -28,17 +31,12 @@ function shake($length = 10) {
 
     return $shake;
 }
+
 function sendJson($data) {
     header("Content-Type: application/json");
     echo json_encode($data);
     die();
-} ?>
-<?php function display_errors($errors) { ?>
-    <?php if (!empty($errors)): ?>
-        <?php foreach ($errors as $error): ?>
-            <p class="m-0">
-                <?php echo $error ?>
-            </p>
-        <?php endforeach ?>
-    <?php endif ?>
-<?php } ?>
+}
+
+$to_kebab = fn(string $string): string =>
+    implode("-", array_map(fn($word) => strtolower($word), explode(" ", $string)));

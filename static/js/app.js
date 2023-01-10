@@ -6,6 +6,12 @@ $(function () {
     $('input[name=cost]').val('65');
     $('input[name=price]').val('85');
   });
+  $('.random-store').click(function () {
+    const stores = ['another store', 'electronics store'];
+    $('input[name=name]').val(
+      stores[Math.floor(Math.random() * stores.length)]
+    );
+  });
   /**
    * Image Preview
    */

@@ -6,6 +6,8 @@ require(INCS . "head.php");
 
 <div class="container">
     <h1>All Stores</h1>
+    <button class="random-store btn btn-sm btn-dark mb-2">Fill with Random
+        data</button>
     <div class="border p-3">
         <form id="storeForm" class="row align-items-center">
             <div class="col-9">
