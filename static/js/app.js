@@ -175,6 +175,9 @@ $(function () {
     });
   });
 
+  /**
+   *  Display Stores
+   */
   function renderStores() {
     const container = $('.stores-listing').append(
       $('<span class="loading">Loading...</span>')
@@ -228,7 +231,7 @@ $(function () {
               $(this).replaceWith(saveBtn);
             }
 
-            function addStore(e) {
+            function updateStore(e) {
               e.preventDefault();
               const product = new FormData(this);
               product.append('id', store.id);
@@ -256,7 +259,7 @@ $(function () {
                   .text('Edit')
                   .click(editStore)
               )
-              .submit(addStore);
+              .submit(updateStore);
 
             const deleteButton = $(
               '<button class="btn btn-sm btn-danger ms-2">'
@@ -274,4 +277,43 @@ $(function () {
     });
   }
   renderStores();
+  /**
+   * Add a Store
+   */
+  const storeForm = $('#storeForm');
+  storeForm.submit(function (e) {
+    e.preventDefault();
+    const store = new FormData(this);
+    /**
+     * TODO: DATA VALIDATION
+     */
+    $.ajax({
+      url: 'post.php',
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      data: store,
+      success(data) {
+        if (data.msg === 'duplicate') {
+          $('.add-store-msg')
+            .show()
+            .removeClass('text-danger')
+            .addClass('text-danger')
+            .text('Already exists');
+        } else if (data.msg === true) {
+          $('.add-store-msg')
+            .show()
+            .removeClass('text-danger')
+            .addClass('text-success')
+            .text('Saved!')
+            .delay(2000)
+            .fadeOut(700);
+          renderStores();
+        }
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
+  });
 });

@@ -22,6 +22,20 @@ class Store {
         $query->execute([$id]);
         return $query->fetch();
     }
+
+    public static function save($store) {
+        global $conn;
+        try {
+            $stm = $conn->prepare("INSERT INTO stores(name,slug) VALUES(:name,:slug);");
+            $stm->bindParam(":name", $store->name);
+            $stm->bindParam(":slug", $store->slug);
+            return $stm->execute();
+        } catch (\PDOException $th) {
+            if ($th->getCode() === "23000")
+                return "duplicate";
+        }
+    }
+
     public static function destroy($id) {
         global $conn;
         $query = $conn->prepare("DELETE FROM stores WHERE id = ?;");
