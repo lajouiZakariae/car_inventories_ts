@@ -184,15 +184,18 @@ $(function () {
     $.ajax({
       url: 'stores.php',
       error(err) {
-        container
-          .find('.loading')
-          .replaceWith($('<span class="text-danger">').text('Someting wrong!'));
+        err &&
+          container
+            .find('.loading')
+            .replaceWith(
+              $('<span class="text-danger">').text('Someting wrong!')
+            );
       },
       success(data) {
         if (data.stores) {
           container.find('.loading').remove();
 
-          for (const store of data.stores) {
+          data.stores.forEach((store) => {
             const card = $(
               '<div class="store border rounded p-3 mb-2 d-flex ">'
             );
@@ -202,9 +205,6 @@ $(function () {
               )
             );
 
-            /**
-             * TODO: Complete Store Editing
-             */
             function deleteStore() {
               $.ajax({
                 url: 'delete.php?id=' + store.id,
@@ -271,7 +271,7 @@ $(function () {
             $('.stores-listing').append(
               $('<div class="col-12"></div>').append(card)
             );
-          }
+          });
         }
       },
     });
