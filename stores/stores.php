@@ -3,6 +3,6 @@ require("../init.php");
 
 use App\Models\Store;
 
-$stores = Store::all();
+$stores = Store::allWithCount();
 
 sendJson(["stores" => $stores]);

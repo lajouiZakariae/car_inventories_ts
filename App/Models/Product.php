@@ -11,10 +11,18 @@ class Product {
 
     public static function findOne($id) {
         global $conn;
-        $query = $conn->prepare("SELECT * FROM products WHERE id = ? LIMIT 1;", [$id]);
+        $query = $conn->prepare("SELECT * FROM products WHERE id = ? LIMIT 1;");
         $query->execute([$id]);
         return $query->fetch();
     }
+
+    public static function findByStore($store) {
+        global $conn;
+        $stm = $conn->prepare("SELECT * FROM products WHERE store_id=?");
+        $stm->execute([$store]);
+        return $stm->fetchAll();
+    }
+
     public static function destroy($id) {
         global $conn;
         $query = $conn->prepare("DELETE FROM products WHERE id = ?;", [$id]);

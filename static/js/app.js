@@ -201,19 +201,19 @@ $(function () {
         if (data.stores) {
           container.find('.loading').remove();
 
-          data.stores.forEach((store) => {
+          data.stores.forEach(({ store_id, store_name, product_count }) => {
             const card = $(
-              '<div class="store border rounded p-3 mb-2 d-flex ">'
+              '<div class="store border rounded p-3 mb-2 d-flex align-items-center">'
             );
             card.append(
               $('<div style="flex: 1 1 auto;"></div>').append(
-                $('<h4></h4>').text(store.name)
+                $('<h4></h4>').text(store_name)
               )
             );
 
             function deleteStore() {
               $.ajax({
-                url: 'delete.php?id=' + store.id,
+                url: 'delete.php?id=' + store_id,
                 success(data) {
                   if (data.deleted) renderStores();
                 },
@@ -240,7 +240,7 @@ $(function () {
             function updateStore(e) {
               e.preventDefault();
               const product = new FormData(this);
-              product.append('id', store.id);
+              product.append('id', store_id);
               const nameInp = $(this).parent().parent().find('input');
               product.append('name', nameInp.val());
 
@@ -273,6 +273,18 @@ $(function () {
               .text('Delete')
               .click(deleteStore);
 
+            card.append(
+              $('<div>')
+                .append(
+                  $('<a>')
+                    .attr('href', '/products/store.php?id=' + store_id)
+                    .append(
+                      $('<b>').text(product_count).addClass('text-primary')
+                    )
+                )
+                .append(' car')
+                .addClass('px-2')
+            );
             card.append($('<div>').append([editForm, deleteButton]));
             $('.stores-listing').append(
               $('<div class="col-12"></div>').append(card)
@@ -283,6 +295,7 @@ $(function () {
     });
   }
   renderStores();
+
   /**
    * Store Form Submission
    */
@@ -304,14 +317,16 @@ $(function () {
             .show()
             .removeClass('text-danger')
             .addClass('text-danger')
-            .text('Already exists');
+            .text('Already exists!')
+            .delay(1500)
+            .fadeOut(700);
         } else if (data.msg === true) {
           $('.add-store-msg')
             .show()
             .removeClass('text-danger')
             .addClass('text-success')
             .text('Saved!')
-            .delay(2000)
+            .delay(1000)
             .fadeOut(700);
           renderStores();
         }

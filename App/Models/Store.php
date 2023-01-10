@@ -4,10 +4,18 @@ namespace App\Models;
 class Store {
     public static function count() {
         // global $conn;
-// $stm = "SELECT COUNT(id) as lead_count FROM stores where wanted_car = ? ;";
-// $query = $conn->prepare($stm);
+// $query = "SELECT COUNT(id) as lead_count FROM stores where wanted_car = ? ;";
+// $query = $conn->prepare($query);
 // $query->execute();
 // return $query->fetch()->lead_count;
+    }
+
+    public static function allWithCount() {
+        global $conn;
+        $query = $conn->query("SELECT stores.id as store_id, stores.name as store_name ,COUNT(products.id) as product_count
+        FROM stores INNER JOIN products ON stores.id = products.store_id
+        GROUP BY products.store_id;");
+        return $query->fetchAll();
     }
 
     public static function all() {
@@ -26,10 +34,10 @@ class Store {
     public static function save($store) {
         global $conn;
         try {
-            $stm = $conn->prepare("INSERT INTO stores(name,slug) VALUES(:name,:slug);");
-            $stm->bindParam(":name", $store->name);
-            $stm->bindParam(":slug", $store->slug);
-            return $stm->execute();
+            $query = $conn->prepare("INSERT INTO stores(name,slug) VALUES(:name,:slug);");
+            $query->bindParam(":name", $store->name);
+            $query->bindParam(":slug", $store->slug);
+            return $query->execute();
         } catch (\PDOException $th) {
             if ($th->getCode() === "23000")
                 return "duplicate";
@@ -46,7 +54,7 @@ class Store {
 // public static function update($car) {
 // global $conn;
 
-// $stm = "UPDATE stores SET ";
+// $query = "UPDATE stores SET ";
 // $keys = [];
 // $values = [];
 
@@ -56,14 +64,14 @@ class Store {
 // }
 
 // foreach ($keys as $key) {
-// $stm .= "$key = :$key, ";
+// $query .= "$key = :$key, ";
 // }
 
-// // $stm = str_;
+// // $query = str_;
 
-// dd($stm);
+// dd($query);
 
-// $stm .= " WHERE id = :id;";
+// $query .= " WHERE id = :id;";
 // }
 
 }

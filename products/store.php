@@ -1,15 +1,23 @@
 <?php
+use App\Models\Product;
+use App\Models\Store;
 
 require("../init.php");
 require(INCS . "head.php");
 
-use App\Models\Product;
+$store_id = $_GET["id"];
 
-$products = Product::all();
+if (!filter_var($store_id, FILTER_VALIDATE_INT))
+    redirect("/products");
+
+$store = Store::findOne($store_id);
+$products = Product::findByStore($store_id);
 ?>
-
-<div class="container-fluid mt-3">
-    <a class="btn btn-md btn-dark" href="/products/create.php">Add a Product</a>
+<div class="container mt-2">
+    <h2>
+        <b>Store:</b>
+        <?php e($store->name) ?>
+    </h2>
     <div class="row mt-3">
         <?php foreach ($products as $product): ?>
             <div class='col-12 col-md-6'>
@@ -41,4 +49,4 @@ $products = Product::all();
     </div>
 </div>
 
-<?php require(INCS . "end.php");
+<?php require(INCS . "head.php"); ?>

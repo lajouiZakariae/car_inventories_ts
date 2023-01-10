@@ -9,7 +9,7 @@ function dd($arr = null) {
 }
 
 function e($str) {
-    echo htmlspecialchars($str);
+    echo ($str);
 }
 
 function is_number(string $num) {

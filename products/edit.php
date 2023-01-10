@@ -5,20 +5,6 @@ use App\Models\Product;
 use App\Models\Store;
 use App\Models\Category;
 
-// POST REQUEST
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $product = (object) [
-        "make" => $_POST["make"],
-        "model" => $_POST["model"],
-        "year" => $_POST["year"],
-        "price" => $_POST["price"],
-        "inventory" => $_POST["inventory"],
-        "category" => $_POST["category"],
-        "ready_to_sell" => $_POST["ready_to_sell"] ?? null,
-    ];
-    dd($product);
-}
-
 $id = $_GET["id"];
 
 if (!is_number($id))
@@ -32,7 +18,6 @@ if (!$product)
 
 $categories = Category::all();
 $stores = Store::all();
-
 ?>
 <form class='w-50 mx-auto mt-3' action="/cars/edit.php?id=<?php e($product->id) ?>" method="POST"
     enctype="multipart/form-data">
@@ -43,20 +28,21 @@ $stores = Store::all();
         <input type="file" name="picture" id="picture" hidden>
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='make' placeholder='Make' class='form-control' value="<?php e($product->make) ?>" />
+        <input type='text' name='title' placeholder='Title' class='form-control' value="<?php e($product->title) ?>" />
     </div>
     <div class='form-group mb-2'>
-        <input type='text' name='model' placeholder='Model' class='form-control' value="<?php e($product->model) ?>" />
-    </div>
-    <div class='form-group mb-2'>
-        <input type='text' name='year' placeholder='Year' class='form-control' value="<?php e($product->year) ?>" />
+        <input type='text' name='description' placeholder='Description' class='form-control'
+            value="<?php e($product->description) ?>" />
     </div>
     <div class='form-group mb-2'>
         <input type='text' name='price' placeholder='Price' class='form-control' value="<?php e($product->price) ?>" />
     </div>
+    <div class='form-group mb-2'>
+        <input type='text' name='cost' placeholder='Cost' class='form-control' value="<?php e($product->cost) ?>" />
+    </div>
     <hr />
     <div class='form-group mb-2'>
-        <select name='inventory' class='form-select' id='inventory'>
+        <select name='store' class='form-select' id='store'>
             <?php foreach ($stores as $store): ?>
                 <option value="<?php echo $store->id ?>" <?php if ($store->id === $product->store_id) {
                        echo "selected";
