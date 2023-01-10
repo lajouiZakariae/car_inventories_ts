@@ -1,5 +1,5 @@
 $(function () {
-  // Reandom
+  // Random
   $('.random').click(function () {
     $('input[name=title]').val('Jacket');
     $('input[name=description]').val('lorem ipsum dolor');
@@ -54,50 +54,6 @@ $(function () {
     picturePreview.attr('src', '').parent().addClass('d-none');
     picturePlaceholder.show().addClass('d-flex');
     $('input[name=picture]').val('');
-  });
-
-  /**
-   * Product Form Submission
-   */
-  const addProduct = $('#addProduct');
-
-  addProduct.submit(function (e) {
-    e.preventDefault();
-    const product = new FormData(this);
-    product.append('ready_to_sell', this.ready_to_sell.checked);
-
-    /**
-     * TODO: Data Validation
-     */
-
-    $.ajax({
-      url: '/products/post.php',
-      type: 'POST',
-      data: product,
-      processData: false,
-      contentType: false,
-      success(data) {
-        const errorBox = $('.error-box');
-        if (data.errors && Object.keys(data.errors).length) {
-          // Display All the errors
-          errorBox.show().children().remove();
-
-          for (const error of Object.values(data.errors))
-            errorBox.append($('<p class="m-0"></p>').text(error));
-        } else if (data.msg === 'created') {
-          errorBox.hide();
-          $('.success-box')
-            .text('Product is Saved')
-            .fadeIn(700)
-            .delay(1000)
-            .fadeOut(700);
-
-          addProduct[0].reset();
-          picturePlaceholder.show().addClass('d-flex');
-          picturePreview.parent().addClass('d-none');
-        }
-      },
-    });
   });
 
   /**
@@ -171,6 +127,50 @@ $(function () {
       },
       error() {
         throw new Error('Ooops!');
+      },
+    });
+  });
+
+  /**
+   * Product Form Submission
+   */
+  const addProduct = $('#addProduct');
+
+  addProduct.submit(function (e) {
+    e.preventDefault();
+    const product = new FormData(this);
+    product.append('ready_to_sell', this.ready_to_sell.checked);
+
+    /**
+     * TODO: Data Validation
+     */
+
+    $.ajax({
+      url: '/products/post.php',
+      type: 'POST',
+      data: product,
+      processData: false,
+      contentType: false,
+      success(data) {
+        const errorBox = $('.error-box');
+        if (data.errors && Object.keys(data.errors).length) {
+          // Display All the errors
+          errorBox.show().children().remove();
+
+          for (const error of Object.values(data.errors))
+            errorBox.append($('<p class="m-0"></p>').text(error));
+        } else if (data.msg === 'created') {
+          errorBox.hide();
+          $('.success-box')
+            .text('Product is Saved')
+            .fadeIn(700)
+            .delay(1000)
+            .fadeOut(700);
+
+          addProduct[0].reset();
+          picturePlaceholder.show().addClass('d-flex');
+          picturePreview.parent().addClass('d-none');
+        }
       },
     });
   });
@@ -278,7 +278,7 @@ $(function () {
   }
   renderStores();
   /**
-   * Add a Store
+   * Store Form Submission
    */
   const storeForm = $('#storeForm');
   storeForm.submit(function (e) {
